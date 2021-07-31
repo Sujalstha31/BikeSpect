@@ -1,8 +1,5 @@
 import 'package:bike_mart/SearchBike.dart';
-import 'package:bike_mart/authenticationScreen.dart';
-import 'package:bike_mart/functions.dart';
 import 'package:bike_mart/globalVar.dart';
-import 'package:bike_mart/profileScreen.dart';
 import 'package:bike_mart/userprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +9,7 @@ import 'package:timeago/timeago.dart' as tAgo;
 
 import 'app_drawer.dart';
 import 'appbarcolor.dart';
+import 'functions.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController priceOfBike = TextEditingController();
   TextEditingController bikeName = TextEditingController();
-  TextEditingController bikeColor = TextEditingController();
+  // TextEditingController colorOfBike = TextEditingController();
   TextEditingController descriptionofBike = TextEditingController();
   TextEditingController location = TextEditingController();
   bool _validate = false;
@@ -33,14 +31,14 @@ class _HomeScreenState extends State<HomeScreen> {
   String userNumber;
   String bikePrice;
   String bikeModel;
-  String bikeColors;
+  String bikeColorss;
   String description;
   String urlImage;
   String bikelocation;
   QuerySnapshot bikes;
   QuerySnapshot userss;
 
-  bikeMethods bikeObj = new bikeMethods();
+  BikeMethods bikeObj = new BikeMethods();
 
   Future<bool> showDialogForAddingData() async {
     return showDialog(
@@ -110,10 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               return 'Field is empty';
                             }
                           },
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
+                          // keyboardType: TextInputType.number,
+                          // inputFormatters: <TextInputFormatter>[
+                          //   FilteringTextInputFormatter.digitsOnly
+                          // ],
                           decoration: InputDecoration(
                             hintText: 'Enter price of bike',
                             errorText:
@@ -125,22 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         SizedBox(height: 2.0),
                         TextFormField(
-                          // controller: bikeName,
-                          // ignore: missing_return
-                          // validator: (value) {
-                          //   if (value.isEmpty) {
-                          //     return 'Field is empty';
-                          //   }
-                          // },
-                          decoration:
-                              InputDecoration(hintText: 'Enter bike name'),
-                          onChanged: (value) {
-                            this.bikeModel = value;
-                          },
-                        ),
-                        SizedBox(height: 2.0),
-                        TextFormField(
-                          controller: bikeColor,
+                          controller: bikeName,
                           //ignore: missing_return
                           validator: (value) {
                             if (value.isEmpty) {
@@ -148,11 +131,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             }
                           },
                           decoration:
-                              InputDecoration(hintText: 'Enter bike color'),
+                              InputDecoration(hintText: 'Enter bike name'),
                           onChanged: (value) {
-                            this.bikeColors = value;
+                            this.bikeModel = value;
                           },
                         ),
+                        SizedBox(height: 2.0),
+                        // TextFormField(
+                        //   controller: colorOfBike,
+                        //   //ignore: missing_return
+                        //   validator: (value) {
+                        //     if (value.isEmpty) {
+                        //       return 'Field is empty';
+                        //     }
+                        //   },
+                        //   decoration:
+                        //       InputDecoration(hintText: 'Enter bike color'),
+                        //   onChanged: (value) {
+                        //     this.bikeColorss = value;
+                        //   },
+                        // ),
                         SizedBox(height: 2.0),
                         TextFormField(
                           controller: descriptionofBike,
@@ -208,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       phoneNumber.text = "";
                       priceOfBike.text = "";
                       bikeName.text = "";
-                      bikeColor.text = "";
+                      // colorOfBike.text = "";
                       descriptionofBike.text = "";
                       location.text = "";
                       name.text = "";
@@ -222,25 +220,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onPressed: () {
                   setState(() {
-                    if (formKey.currentState.validate()) ;
+                    if (formKey.currentState.validate()) {}
                   });
 
                   if (userName.isNotEmpty ||
                       userNumber.isNotEmpty ||
                       bikePrice.isNotEmpty ||
                       bikeModel.isNotEmpty ||
-                      bikeColors.isNotEmpty ||
+                      //bikeColorss.isNotEmpty ||
                       bikelocation.isNotEmpty ||
                       description.isNotEmpty ||
                       urlImage.isNotEmpty ||
                       userImageUrl.isNotEmpty) {
                     Map<String, dynamic> bikeData = {
-                      'userName': this.userName,
+                      'userName': userName,
                       'uId': userId,
                       'userNumber': this.userNumber,
                       'bikePrice': this.bikePrice,
                       'bikeModel': this.bikeModel,
-                      'bikeColor': this.bikeColor,
+                      //'bikeColor': this.colorOfBike,
                       'bikeLocation': this.bikelocation,
                       'description': this.description,
                       'urlImage': this.urlImage,
@@ -281,7 +279,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userId = FirebaseAuth.instance.currentUser.uid;
     userEmail = FirebaseAuth.instance.currentUser.email;
@@ -296,8 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width,
-        _screenHeight = MediaQuery.of(context).size.height;
+    double _screenWidth = MediaQuery.of(context).size.width;
 
     Widget showbikesList() {
       if (bikes != null) {
@@ -306,6 +302,11 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.all(8.0),
           itemBuilder: (context, i) {
             return Card(
+              shadowColor: Colors.black,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              elevation: 9,
               clipBehavior: Clip.antiAlias,
               child: Column(
                 children: [
@@ -411,18 +412,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Icon(Icons.brush_outlined),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Align(
-                                child: Text(bikes.docs[i]['bikeColor']),
-                                alignment: Alignment.topLeft,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Icon(Icons.brush_outlined),
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(left: 10.0),
+                        //       child: Align(
+                        //         child: Text(bikes.docs[i]['bikeColor']),
+                        //         alignment: Alignment.topLeft,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Row(
                           children: [
                             Icon(Icons.phone_android),
@@ -504,23 +505,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(Icons.search, color: Colors.white),
             ),
           ),
-          // TextButton(
-          //   onPressed: () {
-          //     auth.signOut().then((_) {
-          //       Route newRoute =
-          //           MaterialPageRoute(builder: (_) => AuthenticationScreen());
-          //       Navigator.pushReplacement(context, newRoute);
-          //     });
-          //   },
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(10.0),
-          //     child: Icon(Icons.login_outlined, color: Colors.white),
-          //   ),
-          // ),
         ],
         flexibleSpace: colorapp,
         title: Text(
-          ("Home Page"),
+          ("Bike Spectator"),
         ),
         centerTitle: true,
       ),

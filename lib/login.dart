@@ -4,7 +4,6 @@ import 'package:bike_mart/HomeScreen.dart';
 import 'package:bike_mart/Widgets/customTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -19,9 +18,6 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width,
-        _screenHeight = MediaQuery.of(context).size.height;
-
     return SingleChildScrollView(
       child: Container(
         child: Column(

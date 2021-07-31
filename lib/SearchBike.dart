@@ -17,7 +17,7 @@ class _SearchBikeState extends State<SearchBike> {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   String bikeModel;
-  String bikeColor;
+  // String bikeColor;
   QuerySnapshot bikes;
 
   Widget _buildSearchField() {
@@ -118,8 +118,7 @@ class _SearchBikeState extends State<SearchBike> {
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width,
-        _screenHeight = MediaQuery.of(context).size.height;
+    double _screenWidth = MediaQuery.of(context).size.width;
 
     Widget showbikesList() {
       if (bikes != null) {
@@ -249,18 +248,18 @@ class _SearchBikeState extends State<SearchBike> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Icon(Icons.brush_outlined),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0),
-                              child: Align(
-                                child: Text(bikes.docs[i]['bikeColor']),
-                                alignment: Alignment.topLeft,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Icon(Icons.brush_outlined),
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(left: 10.0),
+                        //       child: Align(
+                        //         child: Text(bikes.docs[i]['bikeColor']),
+                        //         alignment: Alignment.topLeft,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Row(
                           children: [
                             Icon(Icons.phone_android),
@@ -299,7 +298,7 @@ class _SearchBikeState extends State<SearchBike> {
           },
         );
       } else {
-        return Text('Loading...');
+        return Center(child: Text('Searrch Bike at top'));
       }
     }
 

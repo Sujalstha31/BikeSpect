@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 5.0,
               ),
               Text(
-                "Bike Mart",
+                "Bike Spectator",
                 style: TextStyle(
                     fontSize: 60.0, color: Colors.white, fontFamily: "Lobster"),
               )

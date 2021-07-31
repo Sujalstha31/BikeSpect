@@ -8,6 +8,7 @@ import 'package:timeago/timeago.dart' as tAgo;
 
 import 'app_drawer.dart';
 
+// ignore: must_be_immutable
 class ProfileScreen extends StatefulWidget {
   String sellerId;
   ProfileScreen({this.sellerId});
@@ -22,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String bikePrice;
   String bikeModel;
   String bikelocation;
-  String bikeColor;
+  // String bikeColor;
   String description;
   String urlImage;
   QuerySnapshot bikes;
@@ -30,10 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController priceBikeController = TextEditingController();
   TextEditingController bikeNameController = TextEditingController();
-  TextEditingController bikeColorController = TextEditingController();
+  // TextEditingController bikeColorController = TextEditingController();
   TextEditingController descriptionBikeController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  bikeMethods bikeObj = new bikeMethods();
+  BikeMethods bikeObj = new BikeMethods();
 
   Future<bool> showDialogForUpdateData(selectedDoc) async {
     return showDialog(
@@ -84,13 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     },
                   ),
                   SizedBox(height: 5.0),
-                  TextField(
-                    controller: bikeColorController,
-                    decoration: InputDecoration(hintText: 'Enter bike color'),
-                    onChanged: (value) {
-                      this.bikeColor = value;
-                    },
-                  ),
+                  // TextField(
+                  //   controller: bikeColorController,
+                  //   decoration: InputDecoration(hintText: 'Enter bike color'),
+                  //   onChanged: (value) {
+                  //     this.bikeColor = value;
+                  //   },
+                  // ),
                   SizedBox(height: 5.0),
                   TextField(
                     controller: descriptionBikeController,
@@ -138,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     'userNumber': this.userNumber,
                     'bikePrice': this.bikePrice,
                     'bikeModel': this.bikeModel,
-                    'bikeColor': this.bikeColor,
+                    // 'bikeColor': this.bikeColor,
                     'bikeLocation': this.bikelocation,
                     'description': this.description,
                     'urlImage': this.urlImage,
@@ -153,16 +154,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           );
         });
-  }
-
-  Widget _buildBackButton() {
-    return IconButton(
-      onPressed: () {
-        Route newRoute = MaterialPageRoute(builder: (_) => HomeScreen());
-        Navigator.pushReplacement(context, newRoute);
-      },
-      icon: Icon(Icons.arrow_back, color: Colors.white),
-    );
   }
 
   Widget _buildUserImage() {
@@ -189,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         bikes = results;
         adUserName = bikes.docs[0]['userName'];
-        bikecolor = bikes.docs[0]['bikeColor'];
+        // bikecolor = bikes.docs[0]['bikeColor'];
         bikelocation = bikes.docs[0]['bikeModel'];
         bikeprice = bikes.docs[0]['bikePrice'];
         bikedescription = bikes.docs[0]['description'];
@@ -198,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
       nameController.text = adUserName;
       phoneController.text = userNumber;
-      bikeColorController.text = bikecolor;
+      // bikeColorController.text = bikecolor;
       priceBikeController.text = bikeprice;
     });
   }
@@ -345,18 +336,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Icon(Icons.brush_outlined),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10.0),
-                            child: Align(
-                              child: Text(bikes.docs[i]['bikeColor']),
-                              alignment: Alignment.topLeft,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     Icon(Icons.brush_outlined),
+                      //     Padding(
+                      //       padding: const EdgeInsets.only(left: 10.0),
+                      //       child: Align(
+                      //         child: Text(bikes.docs[i]['bikeColor']),
+                      //         alignment: Alignment.topLeft,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       Row(
                         children: [
                           Icon(Icons.phone_android),
@@ -401,6 +392,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     getResults();
@@ -408,8 +400,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width,
-        _screenHeight = MediaQuery.of(context).size.height;
+    double _screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         // leading: _buildBackButton(),
@@ -423,17 +414,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
         flexibleSpace: Container(
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
-                colors: [
-                  Colors.blueAccent,
-                  Colors.redAccent,
-                ],
-                begin: const FractionalOffset(0.0, 0.0),
-                end: const FractionalOffset(1.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
+          decoration: new BoxDecoration(color: Colors.blueAccent
+
+              // gradient: new LinearGradient(
+              //     colors: [
+              //       Colors.blueAccent,
+              //       Colors.redAccent,
+              //     ],
+              //     begin: const FractionalOffset(0.0, 0.0),
+              //     end: const FractionalOffset(1.0, 0.0),
+              //     stops: [0.0, 1.0],
+              //     tileMode: TileMode.clamp),
+              ),
         ),
       ),
       drawer: AppDrawer(usere: userEmail, usern: userNames),

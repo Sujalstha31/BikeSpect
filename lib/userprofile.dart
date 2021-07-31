@@ -18,11 +18,10 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController displayNameController = TextEditingController();
-  // TextEditingController bioController = TextEditingController();
+  TextEditingController displayuserNumber = TextEditingController();
   bool isLoading = false;
   bool _displayNameValid = true;
-  bool _bioValid = true;
-
+  bool _displayuserValid = true;
   @override
   void initState() {
     super.initState();
@@ -39,11 +38,13 @@ class _EditProfileState extends State<EditProfile> {
         .get()
         .then((results) {
       setState(() {
+        userNumber = results.data()['userNumber'];
         userImageUrl = results.data()['imgPro'];
         userNames = results.data()['userNames'];
       });
     });
     displayNameController.text = userNames;
+    displayuserNumber.text = userNumber;
 
     setState(() {
       isLoading = false;
@@ -66,6 +67,19 @@ class _EditProfileState extends State<EditProfile> {
             hintText: "Update Display Name",
             errorText: _displayNameValid ? null : "Display Name too short",
           ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(top: 12.0),
+            child: Text(
+              "Number",
+              style: TextStyle(color: Colors.grey),
+            )),
+        TextField(
+          controller: displayuserNumber,
+          decoration: InputDecoration(
+            hintText: "Update Display Name",
+            errorText: _displayuserValid ? null : "Display Name too short",
+          ),
         )
       ],
     );
@@ -78,7 +92,7 @@ class _EditProfileState extends State<EditProfile> {
         Padding(
           padding: EdgeInsets.only(top: 12.0),
           child: Text(
-            "Bio",
+            "",
             style: TextStyle(color: Colors.grey),
           ),
         ),
@@ -103,8 +117,10 @@ class _EditProfileState extends State<EditProfile> {
     if (_displayNameValid) {
       FirebaseFirestore.instance.collection('userss').doc(userId).update({
         "userNames": displayNameController.text,
+        "userNumber": displayuserNumber.text
       });
       SnackBar snackbar = SnackBar(content: Text("Profile updated!"));
+      // ignore: deprecated_member_use
       _scaffoldKey.currentState.showSnackBar(snackbar);
     }
   }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class CustomTextField extends StatelessWidget {
-  bool _validate = false;
   final TextEditingController controller;
   final IconData data;
   final String hintText;
+  final String value;
   bool isObsecure = true;
 
   CustomTextField({
@@ -13,12 +14,12 @@ class CustomTextField extends StatelessWidget {
     this.data,
     this.hintText,
     this.isObsecure,
+    this.value,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width,
-        _screenHeight = MediaQuery.of(context).size.height;
+    double _screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       width: _screenWidth,
@@ -42,6 +43,12 @@ class CustomTextField extends StatelessWidget {
           hintText: hintText,
           //errorText: _validate ? 'Value Can\'t Be Empty' : null,
         ),
+        // ignore: missing_return
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Field is empty';
+          }
+        },
       ),
     );
   }
